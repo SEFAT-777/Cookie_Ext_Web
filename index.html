@@ -2,106 +2,322 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Multi-Line Cookie Extractor</title>
+  <title>Cookie Converter</title>
   <style>
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
+    * {
       margin: 0;
-      padding: 40px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
       display: flex;
+      align-items: center;
       justify-content: center;
+      padding: 20px;
+      color: #e2e8f0;
     }
+    
     .container {
-      background: #fff;
-      padding: 25px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      max-width: 700px;
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 15px 25px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(148, 163, 184, 0.1);
+      max-width: 800px;
       width: 100%;
+      position: relative;
     }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.3), transparent);
+      border-radius: 24px 24px 0 0;
+    }
+    
     h2 {
-      margin-top: 0;
-      font-size: 22px;
-      color: #333;
+      font-size: 28px;
+      font-weight: 700;
+      color: #f1f5f9;
       text-align: center;
+      margin-bottom: 32px;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
     }
+    
+    .form-group {
+      margin-bottom: 24px;
+    }
+    
+    label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #cbd5e0;
+      margin-bottom: 8px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
     textarea, input {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0 16px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 16px 20px;
+      border: 2px solid #334155;
+      border-radius: 12px;
       font-size: 14px;
-      box-sizing: border-box;
-      transition: border 0.2s;
+      font-family: inherit;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      color: #e2e8f0;
     }
+    
     textarea:focus, input:focus {
       outline: none;
-      border-color: #0078d7;
+      border-color: #60a5fa;
+      box-shadow: 
+        0 0 0 4px rgba(96, 165, 250, 0.1),
+        0 4px 12px rgba(96, 165, 250, 0.15);
+      transform: translateY(-1px);
+      background: rgba(15, 23, 42, 0.95);
     }
-    label {
-      font-weight: 600;
-      color: #555;
-      display: block;
-      margin-bottom: 4px;
+    
+    textarea::placeholder, input::placeholder {
+      color: #64748b;
     }
+    
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
     .button-group {
       text-align: center;
-      margin-top: 10px;
+      margin: 32px 0;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
+    
     button {
-      background: #0078d7;
+      position: relative;
+      background: linear-gradient(145deg, #3b82f6, #8b5cf6);
       color: white;
       border: none;
-      padding: 10px 18px;
+      padding: 14px 28px;
       font-size: 14px;
-      border-radius: 6px;
-      margin: 5px;
+      font-weight: 600;
+      border-radius: 12px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-width: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      
+      /* 3D Effect */
+      box-shadow: 
+        0 6px 12px rgba(59, 130, 246, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      
+      /* Subtle border for depth */
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
+    
     button:hover {
-      background: #005a9e;
+      background: linear-gradient(145deg, #2563eb, #7c3aed);
+      transform: translateY(-2px);
+      box-shadow: 
+        0 8px 20px rgba(59, 130, 246, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
+    
+    button:active {
+      transform: translateY(0);
+      box-shadow: 
+        0 4px 8px rgba(59, 130, 246, 0.3),
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    
+    button:disabled {
+      background: linear-gradient(145deg, #475569, #64748b);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 
+        0 2px 4px rgba(71, 85, 105, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    
     .output {
-      margin-top: 20px;
+      margin-top: 24px;
     }
+    
     .output textarea {
-      width: 100%;
-      height: 200px;
+      height: 220px;
       resize: vertical;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 12px;
-      font-family: monospace;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
       font-size: 13px;
-      background: #fafafa;
-      color: #333;
+      background: #0f172a;
+      color: #e2e8f0;
+      border: 2px solid #1e293b;
+      line-height: 1.5;
+    }
+    
+    .output textarea:focus {
+      border-color: #60a5fa;
+      background: #0f172a;
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding: 12px 20px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      color: #cbd5e0;
+      font-weight: 500;
+    }
+    
+    .icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    
+    .success-btn {
+      background: linear-gradient(145deg, #10b981, #059669) !important;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 24px;
+        margin: 20px;
+      }
+      
+      .input-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      button {
+        width: 100%;
+        max-width: 200px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Multi-Line Cookie Extractor & Formatter</h2>
+    <h2>
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 1H5C3.9 1 3 1.9 3 3V21C3 22.1 3.9 23 5 23H19C20.1 23 21 22.1 21 21V9H21ZM5 3H13V9H5V3ZM7 12H17V14H7V12ZM7 16H17V18H7V16Z"/>
+      </svg>
+      Cookie Converter
+    </h2>
     
-    <label for="inputData">Paste your data (one line per record):</label>
-    <textarea id="inputData" rows="10"></textarea>
-    
-    <label for="password">Enter Password:</label>
-    <input type="text" id="password" value="GARA#12#">
-
-    <label for="keyName">Key to Extract:</label>
-    <input type="text" id="keyName" value="c_user">
-
-    <div class="button-group">
-      <button onclick="convert()">Convert All</button>
-      <button onclick="copyOutput()">Copy Output</button>
+    <div class="form-group">
+      <label for="inputData">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M19,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M9,17H7V15H9V17M9,13H7V11H9V13M9,9H7V7H9V9M17,17H11V15H17V17M17,13H11V11H17V13M17,9H11V7H17V9"/>
+        </svg>
+        Input Data
+      </label>
+      <textarea id="inputData" rows="8" placeholder="Paste your cookie ..."></textarea>
     </div>
-
+    
+    <div class="input-row">
+      <div class="form-group">
+        <label for="password">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M12,17C10.89,17 10,16.1 10,15C10,13.89 10.89,13 12,13A2,2 0 0,1 14,15A2,2 0 0,1 12,17M18,20V10H6V20H18M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V10C4,8.89 4.89,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+          </svg>
+          Password
+        </label>
+        <input type="text" id="password" value="GARA#12#" placeholder="Enter password">
+      </div>
+      
+      <div class="form-group">
+        <label for="keyName">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M7,14C5.89,14 5,13.1 5,12C5,10.89 5.89,10 7,10C8.1,10 9,10.89 9,12C9,13.1 8.1,14 7,14M12.6,10C11.8,7.7 9.6,6 7,6A6,6 0 0,0 1,12A6,6 0 0,0 7,18C9.6,18 11.8,16.3 12.6,14H16V18H20V14H23V10H12.6Z"/>
+          </svg>
+          Key to Extract
+        </label>
+        <input type="text" id="keyName" value="c_user" placeholder="e.g., c_user">
+      </div>
+    </div>
+    
+    <div class="button-group">
+      <button onclick="convert()" id="convertBtn">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
+        </svg>
+        Process Data
+      </button>
+      <button onclick="copyOutput()" id="copyBtn">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+        </svg>
+        Copy Result
+      </button>
+      <button onclick="clearAll()" id="clearBtn">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+        </svg>
+        Clear All
+      </button>
+    </div>
+    
     <div class="output">
-      <label for="output">Formatted Output:</label>
-      <textarea id="output" readonly></textarea>
+      <label for="output">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+        </svg>
+        Formatted Output
+      </label>
+      <textarea id="output" readonly placeholder="Processed data will appear here..."></textarea>
+      <div class="stats" id="stats" style="display: none;">
+        <span>Lines Processed: <strong id="linesCount">0</strong></span>
+        <span>Successful Extractions: <strong id="successCount">0</strong></span>
+        <span>Success Rate: <strong id="successRate">0%</strong></span>
+      </div>
     </div>
   </div>
 
@@ -110,39 +326,120 @@
       const input = document.getElementById("inputData").value.trim();
       const password = document.getElementById("password").value.trim();
       const keyName = document.getElementById("keyName").value.trim();
-      let result = "";
-
-      if (input && keyName) {
+      
+      const convertBtn = document.getElementById("convertBtn");
+      const stats = document.getElementById("stats");
+      
+      if (!input || !keyName) {
+        alert("⚠️ Please enter both data and key name.");
+        return;
+      }
+      
+      // Show processing state
+      convertBtn.disabled = true;
+      convertBtn.innerHTML = `
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z">
+            <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" values="0 12 12;360 12 12"/>
+          </path>
+        </svg>
+        Processing...`;
+      
+      setTimeout(() => {
         const lines = input.split("\n").map(l => l.trim()).filter(l => l);
         const regex = new RegExp(keyName + "=([^;]+)");
         
+        let successCount = 0;
         const formatted = lines.map(line => {
           const match = line.match(regex);
           if (match) {
+            successCount++;
             const keyValue = match[1];
             return `${keyValue}|${password}|${line}`;
           } else {
-            return `Key "${keyName}" not found in: ${line}`;
+            return `❌ Key "${keyName}" not found in: ${line}`;
           }
         });
-
-        result = formatted.join("\n");
-      } else {
-        result = "Please enter data and key name.";
-      }
-
-      document.getElementById("output").value = result;
+        
+        const result = formatted.join("\n");
+        document.getElementById("output").value = result;
+        
+        // Update stats
+        document.getElementById("linesCount").textContent = lines.length;
+        document.getElementById("successCount").textContent = successCount;
+        document.getElementById("successRate").textContent = 
+          lines.length > 0 ? Math.round((successCount / lines.length) * 100) + "%" : "0%";
+        
+        stats.style.display = "flex";
+        
+        // Reset button
+        convertBtn.disabled = false;
+        convertBtn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
+          </svg>
+          Process Data`;
+        
+        // Success feedback
+        if (successCount > 0) {
+          convertBtn.classList.add('success-btn');
+          setTimeout(() => {
+            convertBtn.classList.remove('success-btn');
+          }, 1000);
+        }
+      }, 300);
     }
-
+    
     function copyOutput() {
       const output = document.getElementById("output");
+      const copyBtn = document.getElementById("copyBtn");
+      
       if (output.value.trim()) {
         output.select();
         document.execCommand("copy");
-        alert("Output copied to clipboard!");
+        
+        // Success feedback
+        copyBtn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+          </svg>
+          Copied!`;
+        copyBtn.classList.add('success-btn');
+        
+        setTimeout(() => {
+          copyBtn.innerHTML = `
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+            </svg>
+            Copy Result`;
+          copyBtn.classList.remove('success-btn');
+        }, 1500);
       } else {
-        alert("No output to copy.");
+        alert("⚠️ No output to copy. Please process data first.");
       }
+    }
+    
+    function clearAll() {
+      document.getElementById("inputData").value = "";
+      document.getElementById("output").value = "";
+      document.getElementById("stats").style.display = "none";
+      
+      const clearBtn = document.getElementById("clearBtn");
+      clearBtn.innerHTML = `
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+        </svg>
+        Cleared!`;
+      clearBtn.classList.add('success-btn');
+      
+      setTimeout(() => {
+        clearBtn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+          </svg>
+          Clear All`;
+        clearBtn.classList.remove('success-btn');
+      }, 1000);
     }
   </script>
 </body>
